@@ -81,3 +81,131 @@ body {
 
     <h3>Narração dos Lances:</h3>
     <div id="narracao"></div>
+    <script>
+        // Configuração dos Times (Força de 1 a 100)
+        const timeCasa = { nome: "🇧🇷 Brasil", ataque: 1, defesa: 1, gols: 0 };
+        const timeFora = { nome: "🇯🇵 Japão", ataque: 1, defesa: 1, gols: 0 };
+
+        // Frases para dinamizar a narração
+        const frasesAtaque = [
+            "avança em velocidade pelo meio!",
+            "trabalha a bola na entrada da área.",
+            "tenta o cruzamento na área!",
+            "arrisca o chute de longa distância!"
+        ];
+
+        const frasesDefesa = [
+            "mas a zaga afasta o perigo.",
+            "e o goleiro faz uma defesa segura.",
+            "mas o chute vai direto para fora!",
+            "mas a bola explode na marcação."
+        ];
+
+        let minuto = 0;
+        let intervalo;
+
+        // Inicializa os nomes na tela
+        document.getElementById('nome-casa').innerText = timeCasa.nome;
+        document.getElementById('nome-fora').innerText = timeFora.nome;
+
+        function iniciarPartida() {
+    // Se o minuto for 0, significa que é um jogo novo, então fazemos o reset total
+    if (minuto === 0 || minuto > 90) {
+        minuto = 0;
+        timeCasa.gols = 0;
+        timeFora.gols = 0;
+        document.getElementById('gols-casa').innerText = 0;
+        document.getElementById('gols-fora').innerText = 0;
+        document.getElementById('narracao').innerHTML = "<b>Apita o árbitro! Bola rolando!</b><br>";
+    } else {
+        // Se o minuto for 45, o jogo apenas continua
+        document.getElementById('narracao').innerHTML = "<b>Começa o segundo tempo! Bola em jogo!</b><br>" + document.getElementById('narracao').innerHTML;
+    }
+
+    document.getElementById('btn-iniciar').disabled = true;
+
+    // Loop que roda a cada 1000ms (1 segundo)
+    intervalo = setInterval(processarMinuto, 1000);
+}
+
+        function processarMinuto() {
+    minuto++;
+    
+    // 1. Verifica se chegou ao intervalo (45 minutos)
+    if (minuto === 45) {
+        clearInterval(intervalo); // Pausa o jogo
+        
+        const painel = document.getElementById('narracao');
+        painel.innerHTML = "<br><b>☕ Fim do primeiro tempo! Intervalo de jogo.</b><br>" + painel.innerHTML;
+
+        //painel.scrollTop = painel.scrollHeight;
+        
+        // Atualiza o botão para o utilizador clicar quando quiser voltar
+        const btn = document.getElementById('btn-iniciar');
+        btn.innerText = "Iniciar 2º Tempo";
+        btn.disabled = false;
+        
+        // Atualiza o relógio para mostrar 45'
+        document.getElementById('relogio').innerText = minuto + "'";
+        return; // Para a execução deste minuto
+    }
+
+    // 2. Verifica se o jogo realmente acabou (90 minutos)
+    if (minuto > 90) {
+        encerrarPartida();
+        return;
+    }
+
+    // Atualiza o relógio na tela nos restantes minutos
+    document.getElementById('relogio').innerText = minuto + "'";
+
+    // Define se haverá um lance de perigo neste minuto (ex: 15% de chance)
+    if (Math.random() < 0.15) {
+        simularLance();
+    }
+}
+
+
+        function simularLance() {
+            const painel = document.getElementById('narracao');
+            
+            // Define quem está atacando com base no equilíbrio de forças (Ataque vs Defesa adversária)
+            const chanceCasa = timeCasa.ataque / (timeCasa.ataque + timeFora.defesa);
+            const atacante = (Math.random() < chanceCasa) ? timeCasa : timeFora;
+            const defensor = (atacante === timeCasa) ? timeFora : timeCasa;
+
+            let textoLance = `<b>${minuto}'</b> - O ${atacante.nome} ${frasesAtaque[Math.floor(Math.random() * frasesAtaque.length)]} `;
+
+            // Define se o ataque resulta em gol (ex: 25% de chance de o ataque superar a zaga)
+            if (Math.random() < 0.25) {
+                atacante.gols++;
+                textoLance += `<span class='gol'>GOOOOAL! É do ${atacante.nome}! Que golaço! ⚽</span>`;
+                
+                // Atualiza o placar
+                document.getElementById('gols-casa').innerText = timeCasa.gols;
+                document.getElementById('gols-fora').innerText = timeFora.gols;
+            } else {
+                textoLance += `<span class='perigo'>${frasesDefesa[Math.floor(Math.random() * frasesDefesa.length)]}</span>`;
+            }
+
+            //painel.innerHTML += textoLance + "<br>";
+            // Como deve ficar agora:
+painel.innerHTML = textoLance + "<br>" + painel.innerHTML;
+
+           // painel.scrollTop = painel.scrollHeight; // Auto-scroll para o final
+        }
+
+
+function encerrarPartida() {
+    clearInterval(intervalo);
+    const painel = document.getElementById('narracao');
+    painel.innerHTML = "<b>🏁 Fim de jogo! Árbitro encerra a partida.</b><br><br>" + painel.innerHTML;
+
+    
+    const btn = document.getElementById('btn-iniciar');
+    btn.innerText = "Iniciar Partida"; // Reseta o texto para o próximo jogo
+    btn.disabled = false;
+}
+   </script>
+</body>
+</html>
