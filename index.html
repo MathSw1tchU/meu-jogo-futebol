@@ -77,8 +77,8 @@ body {
 
     <div class="container-botoes">
   <button class="btn-jogar" id="btn-iniciar" onclick="iniciarPartida()">Iniciar Partida</button>
-  <span class="numero">''</span>
-  <span class="numero">''</span>
+  <span class="numero"> </span>
+  <span class="numero"> </span>
   <button class="btn-jogar" id="btn-iniciar-2" onclick="iniciarPartida2()">Iniciar Partida</button>
 </div>
 
@@ -129,7 +129,7 @@ body {
     document.getElementById('btn-iniciar').disabled = true;
 
     // Loop que roda a cada 1000ms (1 segundo)
-    intervalo = setInterval(processarMinuto, 850);
+    intervalo = setInterval(processarMinuto, 800);
 }
 
         function processarMinuto() {
