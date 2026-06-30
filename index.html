@@ -71,6 +71,17 @@ body {
         .btn-jogar:hover { background-color: #219653; }
         .gol { color: #2ecc71; font-weight: bold; }
         .perigo { color: #e74c3c; }
+
+.btn-jogar:disabled {
+    background-color: #555;
+    color: #aaa;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.btn-jogar:disabled:hover {
+    background-color: #555; /* impede a cor do hover quando desabilitado */
+}
 </style>
   </head>
 <body>
