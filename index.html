@@ -285,19 +285,7 @@ function encerrarPartida() {
 }
 
 // ==================== SISTEMA DE FORMAÇÃO ====================
-
-// Função do botão Formação
-function iniciarPartida2() {
-    if (minuto === 0 || minuto > 90) {
-        alert("⚠️ Inicie a partida primeiro para alterar a formação!");
-        return;
-    }
-    document.getElementById('painel-formacao').style.display = 'flex';
-}
-
-function fecharPainelFormacao() {
-    document.getElementById('painel-formacao').style.display = 'none';
-}
+let formacaoAtual = '4-4-2'; // Formação inicial
 
 function escolherFormacao(formacao) {
     const baseAtaque = 91;
@@ -337,7 +325,12 @@ function escolherFormacao(formacao) {
 
     timeCasa.ataque = ataque;
     timeCasa.defesa = defesa;
+    formacaoAtual = formacao;
 
+    // Atualiza visual dos botões
+    atualizarBotoesFormacao();
+
+    // Mensagem na narração
     const painel = document.getElementById('narracao');
     painel.innerHTML = `<b>${minuto || 0}' - Formação alterada para ${formacao}!</b><br>` +
                        `${mensagemExtra}<br>` +
@@ -346,6 +339,23 @@ function escolherFormacao(formacao) {
                        painel.innerHTML;
 
     fecharPainelFormacao();
+}
+
+function atualizarBotoesFormacao() {
+    const opcoes = document.querySelectorAll('.formacao-opcao');
+    opcoes.forEach(opcao => {
+        if (opcao.getAttribute('onclick').includes(formacaoAtual)) {
+            opcao.style.backgroundColor = '#1abc9c';
+            opcao.style.pointerEvents = 'none';   // bloqueia clique
+            opcao.style.opacity = '0.7';
+            opcao.innerHTML = opcao.innerHTML + ' <b>(Atual)</b>';
+        } else {
+            opcao.style.backgroundColor = '#34495e';
+            opcao.style.pointerEvents = 'auto';
+            opcao.style.opacity = '1';
+            opcao.innerHTML = opcao.innerHTML.replace(' <b>(Atual)</b>', '');
+        }
+    });
 }
    </script>
 </body>
