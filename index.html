@@ -285,6 +285,10 @@ function encerrarPartida() {
 
 // Função do botão Formação
 function iniciarPartida2() {
+    if (minuto === 0 || minuto > 90) {
+        alert("O jogo ainda não começou");
+        return;
+    }
     document.getElementById('painel-formacao').style.display = 'flex';
 }
 
