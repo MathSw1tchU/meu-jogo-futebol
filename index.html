@@ -144,7 +144,16 @@ body {
     <h3>Transmissão</h3>
     <div id="narracao"></div>
 
-
+<!-- Painel de Formação -->
+    <div id="painel-formacao">
+        <h3>Escolha a Formação</h3>
+        <div class="formacao-opcao" onclick="escolherFormacao('4-4-2')">4-4-2 (Equilibrado)</div>
+        <div class="formacao-opcao" onclick="escolherFormacao('4-3-3')">4-3-3 (Ataque)</div>
+        <div class="formacao-opcao" onclick="escolherFormacao('3-5-2')">3-5-2 (Meio-campo)</div>
+        <div class="formacao-opcao" onclick="escolherFormacao('5-3-2')">5-3-2 (Defesa)</div>
+        <div class="formacao-opcao" onclick="escolherFormacao('4-2-3-1')">4-2-3-1 (Ataque Criativo)</div>
+        <button class="btn-jogar" onclick="fecharPainelFormacao()" style="margin-top: 10px; background-color: #e74c3c;">Fechar</button>
+    </div>
 
     <script>
         // Configuração dos Times (Força de 1 a 100)
