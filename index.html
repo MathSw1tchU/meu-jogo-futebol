@@ -282,6 +282,66 @@ function encerrarPartida() {
     btn.innerText = "Recomeçar"; // Reseta o texto para o próximo jogo
     btn.disabled = false;
 }
+
+// Função do botão Formação
+function iniciarPartida2() {
+    document.getElementById('painel-formacao').style.display = 'flex';
+}
+
+function fecharPainelFormacao() {
+    document.getElementById('painel-formacao').style.display = 'none';
+}
+
+function escolherFormacao(formacao) {
+    // Valores base
+    const baseAtaque = 91;
+    const baseDefesa = 89;
+
+    let ataque = baseAtaque;
+    let defesa = baseDefesa;
+    let mensagemExtra = "";
+
+    switch(formacao) {
+        case '4-4-2':
+            ataque = Math.round(baseAtaque * 0.97);   // leve debuff no ataque
+            defesa = Math.round(baseDefesa * 1.02);   // leve buff na defesa
+            mensagemExtra = "Formação equilibrada.";
+            break;
+        case '4-3-3':
+            ataque = Math.round(baseAtaque * 1.10);   // +10% ataque
+            defesa = Math.round(baseDefesa * 0.90);   // -10% defesa
+            mensagemExtra = "Foco total no ataque!";
+            break;
+        case '3-5-2':
+            ataque = Math.round(baseAtaque * 0.95);
+            defesa = Math.round(baseDefesa * 1.05);
+            mensagemExtra = "Meio-campo reforçado.";
+            break;
+        case '5-3-2':
+            ataque = Math.round(baseAtaque * 0.85);   // grande debuff no ataque
+            defesa = Math.round(baseDefesa * 1.15);   // grande buff na defesa
+            mensagemExtra = "Defesa reforçada.";
+            break;
+        case '4-2-3-1':
+            ataque = Math.round(baseAtaque * 1.08);
+            defesa = Math.round(baseDefesa * 0.93);
+            mensagemExtra = "Ataque criativo ativado.";
+            break;
+    }
+
+    timeCasa.ataque = ataque;
+    timeCasa.defesa = defesa;
+
+    // Mensagem na narração
+    const painel = document.getElementById('narracao');
+    painel.innerHTML = `<b>${minuto || 0}' - Formação alterada para ${formacao}!</b><br>` +
+                       `${mensagemExtra}<br>` +
+                       `Ataque: \( {ataque} ( \){ataque > baseAtaque ? '+' : ''}${ataque - baseAtaque}) | ` +
+                       `Defesa: \( {defesa} ( \){defesa > baseDefesa ? '+' : ''}${defesa - baseDefesa})<br>` + 
+                       painel.innerHTML;
+
+    fecharPainelFormacao();
+}
    </script>
 </body>
 </html>
