@@ -88,6 +88,36 @@ body {
 .btn-jogar:disabled:hover {
     background-color: #555; /* impede a cor do hover quando desabilitado */
 }
+
+/* Estilos para o painel de formação */
+#paineis-formacao {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2c3e50;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    z-index: 2000;
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 320px;
+    color: #fff;
+}
+
+.formacao-opcao {
+    background-color: #34495e;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.formacao-opcao:hover {
+    background-color: #27ae60;
+}
 </style>
   </head>
 <body>
