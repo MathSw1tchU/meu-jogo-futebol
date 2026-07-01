@@ -292,7 +292,33 @@ function encerrarPartida() {
 }
 
 // ==================== SISTEMA DE FORMAÇÃO ====================
+
 let formacaoAtual = '4-4-2'; // Formação inicial
+
+// Ativa ou desativa todas as opções de formação
+function toggleFormacoes(ativa) {
+    const opcoes = document.querySelectorAll('.formacao-opcao');
+    opcoes.forEach(opcao => {
+        if (ativa) {
+            opcao.classList.add('ativa');
+        } else {
+            opcao.classList.remove('ativa');
+        }
+    });
+}
+
+// Função do botão "Formação"
+function iniciarPartida2() {
+    if (minuto === 0 || minuto > 90) {
+        alert("⚠️ Inicie a partida primeiro para alterar a formação!");
+        return;
+    }
+    document.getElementById('painel-formacao').style.display = 'flex';
+}
+
+function fecharPainelFormacao() {
+    document.getElementById('painel-formacao').style.display = 'none';
+}
 
 function escolherFormacao(formacao) {
     const baseAtaque = 91;
@@ -334,7 +360,7 @@ function escolherFormacao(formacao) {
     timeCasa.defesa = defesa;
     formacaoAtual = formacao;
 
-    // Atualiza visual dos botões
+    // Atualiza visual dos botões (destaca o atual)
     atualizarBotoesFormacao();
 
     // Mensagem na narração
@@ -351,19 +377,23 @@ function escolherFormacao(formacao) {
 function atualizarBotoesFormacao() {
     const opcoes = document.querySelectorAll('.formacao-opcao');
     opcoes.forEach(opcao => {
-        if (opcao.getAttribute('onclick').includes(formacaoAtual)) {
+        const onclickText = opcao.getAttribute('onclick') || '';
+        if (onclickText.includes(formacaoAtual)) {
             opcao.style.backgroundColor = '#1abc9c';
-            opcao.style.pointerEvents = 'none';   // bloqueia clique
-            opcao.style.opacity = '0.7';
-            opcao.innerHTML = opcao.innerHTML + ' <b>(Atual)</b>';
+            opcao.style.pointerEvents = 'none';
+            opcao.style.opacity = '0.85';
+            if (!opcao.innerHTML.includes('(Atual)')) {
+                opcao.innerHTML += ' <b>(Atual)</b>';
+            }
         } else {
-            opcao.style.backgroundColor = '#34495e';
+            opcao.style.backgroundColor = '';
             opcao.style.pointerEvents = 'auto';
             opcao.style.opacity = '1';
             opcao.innerHTML = opcao.innerHTML.replace(' <b>(Atual)</b>', '');
         }
     });
 }
+        
    </script>
 </body>
 </html>
