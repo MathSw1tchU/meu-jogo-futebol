@@ -193,6 +193,8 @@ body {
         document.getElementById('nome-fora').innerText = timeFora.nome;
 
         function iniciarPartida() {
+// Ativa as formações quando o jogo começa
+toggleFormacoes(true);
     // Se o minuto for 0, significa que é um jogo novo, então fazemos o reset total
     if (minuto === 0 || minuto > 90) {
         minuto = 0;
@@ -281,6 +283,7 @@ painel.innerHTML = textoLance + "<br>" + painel.innerHTML;
 
 
 function encerrarPartida() {
+toggleFormacoes(false);
     clearInterval(intervalo);
     const painel = document.getElementById('narracao');
     painel.innerHTML = "<b>🏁 Fim de jogo! Árbitro encerra a partida.</b><br><br>" + painel.innerHTML;
@@ -293,9 +296,9 @@ function encerrarPartida() {
 
 // ==================== SISTEMA DE FORMAÇÃO ====================
 
-let formacaoAtual = '4-4-2'; // Formação inicial
+let formacaoAtual = '4-4-2';
 
-// Ativa ou desativa todas as opções de formação
+// Ativa ou desativa as opções
 function toggleFormacoes(ativa) {
     const opcoes = document.querySelectorAll('.formacao-opcao');
     opcoes.forEach(opcao => {
@@ -307,10 +310,10 @@ function toggleFormacoes(ativa) {
     });
 }
 
-// Função do botão "Formação"
+// Botão Formação
 function iniciarPartida2() {
-    if (minuto === 0 || minuto > 90) {
-        alert("⚠️ Inicie a partida primeiro para alterar a formação!");
+    if (minuto <= 0 || minuto > 90) {
+        alert("⚠️ Você precisa iniciar a partida para mudar a formação!");
         return;
     }
     document.getElementById('painel-formacao').style.display = 'flex';
@@ -360,16 +363,12 @@ function escolherFormacao(formacao) {
     timeCasa.defesa = defesa;
     formacaoAtual = formacao;
 
-    // Atualiza visual dos botões (destaca o atual)
     atualizarBotoesFormacao();
 
-    // Mensagem na narração
     const painel = document.getElementById('narracao');
-    painel.innerHTML = `<b>${minuto || 0}' - Formação alterada para ${formacao}!</b><br>` +
+    painel.innerHTML = `<b>${minuto}' - Formação alterada para ${formacao}!</b><br>` +
                        `${mensagemExtra}<br>` +
-                       `Ataque: \( {ataque} ( \){ataque > baseAtaque ? '+' : ''}${ataque - baseAtaque}) | ` +
-                       `Defesa: \( {defesa} ( \){defesa > baseDefesa ? '+' : ''}${defesa - baseDefesa})<br>` + 
-                       painel.innerHTML;
+                       `Ataque: ${ataque} | Defesa: ${defesa}<br>` + painel.innerHTML;
 
     fecharPainelFormacao();
 }
@@ -377,19 +376,14 @@ function escolherFormacao(formacao) {
 function atualizarBotoesFormacao() {
     const opcoes = document.querySelectorAll('.formacao-opcao');
     opcoes.forEach(opcao => {
-        const onclickText = opcao.getAttribute('onclick') || '';
-        if (onclickText.includes(formacaoAtual)) {
+        if (opcao.getAttribute('onclick').includes(formacaoAtual)) {
             opcao.style.backgroundColor = '#1abc9c';
             opcao.style.pointerEvents = 'none';
             opcao.style.opacity = '0.85';
-            if (!opcao.innerHTML.includes('(Atual)')) {
-                opcao.innerHTML += ' <b>(Atual)</b>';
-            }
         } else {
             opcao.style.backgroundColor = '';
             opcao.style.pointerEvents = 'auto';
             opcao.style.opacity = '1';
-            opcao.innerHTML = opcao.innerHTML.replace(' <b>(Atual)</b>', '');
         }
     });
 }
